@@ -1,6 +1,3 @@
-const fs = require('fs');
-const path = require('path');
-
 const parseFile = require('./parser');
 
 async function parseFiles(files) {
@@ -9,8 +6,4 @@ async function parseFiles(files) {
     .reduce((allRows, subRows) => allRows.concat(subRows), []);
 }
 
-const pdfDir = path.join(__dirname, '../pdf');
-const pdfFiles = fs.readdirSync(pdfDir)
-  .map(pdf => path.join(pdfDir, pdf));
-
-parseFiles(pdfFiles);
+module.exports = parseFiles;
