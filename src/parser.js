@@ -30,7 +30,7 @@ function parsePage(page) {
 
 async function parseFile(file) {
   const pages = await extract(file);
-  parsePage(pages[0]);
+  pages.forEach(page => parsePage(page));
 }
 
 module.exports = parseFile;
