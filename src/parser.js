@@ -19,6 +19,17 @@ function extractGroupRatingAreas(line) {
   return line.match(/(?<=PARA\d)\d/g)[0];
 }
 
+function extractRates(lines) {
+  return lines
+    .map(line => line.trim().split(/\s+/))
+    .reduce((buckets, line) => {
+      for (let i = 0; i < line.length; i += 2) {
+        buckets[line[i]] = line[i + 1];
+      }
+      return buckets;
+    }, {});
+}
+
 function parsePage(page) {
   const lines = page.split('\n');
 
@@ -26,6 +37,7 @@ function parsePage(page) {
   const state = extractState(lines[2]);
   const planName = extractPlanName(lines[6]);
   const groupRatingAreas = extractGroupRatingAreas(lines[3]);
+  const rates = extractRates(lines.slice(9, 9 + 15));
 }
 
 async function parseFile(file) {
