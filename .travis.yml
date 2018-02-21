@@ -1,10 +1,14 @@
 language: node_js
 node_js:
   - "9"
+env:
+  - TRAVIS_PYTHON_VERSION="3.6"
 cache:
   yarn: true
   directories:
     - "node_modules"
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y poppler-utils
 script:
-  - pip install pdftotext
   - yarn test
