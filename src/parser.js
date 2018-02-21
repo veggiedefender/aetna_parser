@@ -22,6 +22,7 @@ function extractGroupRatingAreas(lines) {
 
 function extractRates(lines) {
   return lines
+    .slice(9, 9 + 15)
     .map(line => line.trim().split(/\s+/))
     .reduce((buckets, line) => {
       for (let i = 0; i < line.length; i += 2) {
@@ -50,7 +51,7 @@ function parsePage(page) {
   const state = extractState(lines);
   const groupRatingAreas = extractGroupRatingAreas(lines);
 
-  const rates = extractRates(lines.slice(9, 9 + 15));
+  const rates = extractRates(lines);
   const row = transformRates(rates);
 
   return [startDate, endDate, planName, state, groupRatingAreas, ...row];
