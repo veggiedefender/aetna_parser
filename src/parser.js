@@ -61,4 +61,10 @@ async function parseFile(file) {
   return pages.map(page => parsePage(page));
 }
 
-module.exports = parseFile;
+async function parseFiles(files) {
+  const rows = files.map(pdf => parseFile(pdf));
+  return (await Promise.all(rows))
+    .reduce((allRows, subRows) => allRows.concat(subRows), []);
+}
+
+module.exports = { parseFiles, parseFile };
