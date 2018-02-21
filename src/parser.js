@@ -45,7 +45,7 @@ function transformRates(rates) {
 function parsePage(page) {
   const lines = page.split('\n');
 
-  const [ startDate, endDate ] = extractDates(lines[0]);
+  const [startDate, endDate] = extractDates(lines[0]);
   const planName = extractPlanName(lines[6]);
   const state = extractState(lines[2]);
   const groupRatingAreas = extractGroupRatingAreas(lines[3]);
