@@ -1,3 +1,4 @@
+const assert = require('assert');
 const bluebird = require('bluebird');
 const extract = bluebird.promisify(require('pdf-text-extract'));
 
@@ -30,19 +31,34 @@ function extractRates(lines) {
     }, {});
 }
 
+function transformRates(rates) {
+  const row = [];
+  row.push(rates['0-20'], rates['0-20']); // zero_eighteen and nineteen_twenty are subsets of 0-20
+  for (let i = 21; i <= 63; i += 1) {
+    row.push(rates[i.toString()]);
+  }
+  row.push(rates['64+'], rates['64+']); // sixty_four and sixty_five_plus are subsets of 64+
+  assert(row.length === 47); // sanity check: we need 47 buckets
+  return row;
+}
+
 function parsePage(page) {
   const lines = page.split('\n');
 
   const [ startDate, endDate ] = extractDates(lines[0]);
-  const state = extractState(lines[2]);
   const planName = extractPlanName(lines[6]);
+  const state = extractState(lines[2]);
   const groupRatingAreas = extractGroupRatingAreas(lines[3]);
+
   const rates = extractRates(lines.slice(9, 9 + 15));
+  const row = transformRates(rates);
+
+  return [startDate, endDate, planName, state, groupRatingAreas, ...row];
 }
 
 async function parseFile(file) {
   const pages = await extract(file);
-  pages.forEach(page => parsePage(page));
+  return pages.map(page => parsePage(page));
 }
 
 module.exports = parseFile;
