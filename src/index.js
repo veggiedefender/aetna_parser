@@ -5,7 +5,8 @@ const parseFile = require('./parser');
 
 
 const pdfDir = path.join(__dirname, '../pdf');
-const pdfFiles = fs.readdirSync(pdfDir)
-  .map(pdf => path.join(pdfDir, pdf));
+const rows = fs.readdirSync(pdfDir)
+  .map(pdf => path.join(pdfDir, pdf))
+  .reduce((rows, pdf) => rows.concat(parseFile(pdf)), []);
 
-pdfFiles.forEach(pdf => parseFile(pdf));
+Promise.all(rows).then(s => console.log(s));
