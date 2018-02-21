@@ -4,20 +4,20 @@ const extract = bluebird.promisify(require('pdf-text-extract'));
 
 const states = require('./states');
 
-function extractDates(line) {
-  return line.match(/\d+\/\d+\/\d+/g);
+function extractDates(lines) {
+  return lines[0].match(/\d+\/\d+\/\d+/g);
 }
 
-function extractState(line) {
-  return states[line.trim().toLowerCase()];
+function extractPlanName(lines) {
+  return lines[6].match(/(?<=Plan Name: ).+/g)[0];
 }
 
-function extractPlanName(line) {
-  return line.match(/(?<=Plan Name: ).+/g)[0];
+function extractState(lines) {
+  return states[lines[2].trim().toLowerCase()];
 }
 
-function extractGroupRatingAreas(line) {
-  return line.match(/(?<=PARA\d)\d/g)[0];
+function extractGroupRatingAreas(lines) {
+  return lines[3].match(/(?<=PARA\d)\d/g)[0];
 }
 
 function extractRates(lines) {
@@ -45,10 +45,10 @@ function transformRates(rates) {
 function parsePage(page) {
   const lines = page.split('\n');
 
-  const [startDate, endDate] = extractDates(lines[0]);
-  const planName = extractPlanName(lines[6]);
-  const state = extractState(lines[2]);
-  const groupRatingAreas = extractGroupRatingAreas(lines[3]);
+  const [startDate, endDate] = extractDates(lines);
+  const planName = extractPlanName(lines);
+  const state = extractState(lines);
+  const groupRatingAreas = extractGroupRatingAreas(lines);
 
   const rates = extractRates(lines.slice(9, 9 + 15));
   const row = transformRates(rates);
