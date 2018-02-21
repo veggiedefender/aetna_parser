@@ -3,10 +3,14 @@ const path = require('path');
 
 const parseFile = require('./parser');
 
+async function parseFiles(files) {
+  const rows = files.map(pdf => parseFile(pdf));
+  return (await Promise.all(rows))
+    .reduce((allRows, subRows) => allRows.concat(subRows), []);
+}
 
 const pdfDir = path.join(__dirname, '../pdf');
-const rows = fs.readdirSync(pdfDir)
-  .map(pdf => path.join(pdfDir, pdf))
-  .reduce((rows, pdf) => rows.concat(parseFile(pdf)), []);
+const pdfFiles = fs.readdirSync(pdfDir)
+  .map(pdf => path.join(pdfDir, pdf));
 
-Promise.all(rows).then(s => console.log(s));
+parseFiles(pdfFiles);
