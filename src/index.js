@@ -6,4 +6,4 @@ async function parseFiles(files) {
     .reduce((allRows, subRows) => allRows.concat(subRows), []);
 }
 
-module.exports = parseFiles;
+module.exports = { parseFile, parseFiles };
