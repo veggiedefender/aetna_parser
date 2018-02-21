@@ -39,7 +39,6 @@ function transformRates(rates) {
     row.push(rates[i.toString()]);
   }
   row.push(rates['64+'], rates['64+']); // sixty_four and sixty_five_plus are subsets of 64+
-  assert(row.length === 47); // sanity check: we need 47 buckets
   return row;
 }
 
