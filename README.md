@@ -5,11 +5,9 @@
 Parses Aetna Insurance PDF reports
 
 ## Installation
-This is not available on NPM, so clone this repo and install it locally.
 
 ```bash
-$ git clone https://github.com/veggiedefender/aetna_parser/
-$ yarn add ../aetna_parser # inside of your project directory
+$ yarn add github:veggiedefender/aetna_parser
 ```
 
 ## Usage
