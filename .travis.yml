@@ -6,4 +6,5 @@ cache:
   directories:
     - "node_modules"
 script:
+  - pip install pdftotext
   - yarn test

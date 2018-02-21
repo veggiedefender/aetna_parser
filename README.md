@@ -1,4 +1,7 @@
 # aetna_parser
+
+[![Build Status](https://travis-ci.org/veggiedefender/aetna_parser.svg?branch=master)](https://travis-ci.org/veggiedefender/aetna_parser)
+
 Parses Aetna Insurance PDF reports
 
 ## Installation
