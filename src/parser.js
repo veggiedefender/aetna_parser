@@ -58,11 +58,11 @@ function parsePage(page) {
 
 async function parseFile(file) {
   const pages = await extract(file);
-  return pages.map(page => parsePage(page));
+  return pages.map(parsePage);
 }
 
 async function parseFiles(files) {
-  const rows = files.map(pdf => parseFile(pdf));
+  const rows = files.map(parseFile);
   return (await Promise.all(rows))
     .reduce((allRows, subRows) => allRows.concat(subRows), []);
 }
